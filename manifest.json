@@ -1,7 +1,7 @@
 {
   "name": "My log",
   "short_name": "My log",
-  "start_url": "index.html",
+  "start_url": "/my-log/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
