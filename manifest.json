@@ -1,7 +1,9 @@
 {
-  "name": "My log",
-  "short_name": "My log",
+  "name": "My Log",
+  "short_name": "My Log",
+  "id": "/my-log/",
   "start_url": "/my-log/",
+  "scope": "/my-log/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
