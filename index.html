@@ -177,10 +177,14 @@
     .record-table td {
       white-space: nowrap;
     }
-    .book-col-title { width: 56%; }
-    .book-col-date { width: 112px; }
+    .book-col-date { width: 92px; }
     .book-col-type { width: 68px; }
-    .book-col-memo { width: 52px; }
+    .book-col-memo { width: 50px; }
+    .book-col-title {
+      width: calc(100% - 210px);
+      white-space: normal;
+      word-break: keep-all;
+    }
     .book-date-line { display: block; white-space: nowrap; }
     .book-date-line.sub { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
     #toast {
