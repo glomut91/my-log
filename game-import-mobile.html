@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Log 게임 데이터 가져오기</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      margin: 0;
+      background: #f7f7f8;
+      color: #111;
+    }
+    .wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+    p {
+      line-height: 1.55;
+      color: #444;
+    }
+    .meta {
+      margin: 16px 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f3f4f6;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #111;
+      color: #fff;
+    }
+    button.secondary {
+      margin-top: 10px;
+      background: #e5e7eb;
+      color: #111;
+      font-weight: 600;
+    }
+    .ok {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #ecfdf5;
+      color: #065f46;
+      display: none;
+      white-space: pre-line;
+    }
+    .warn {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>게임 데이터 가져오기</h1>
+      <p>이 페이지는 한 번만 쓰는 가져오기 페이지야. 아래 버튼을 누르면 엑셀에서 변환한 게임 기록이 앱에 저장돼.</p>
+      <div class="meta">가져올 기록 수: <strong>31개</strong></div>
+      <button onclick="importGames()">게임 데이터 가져오기</button>
+      <button class="secondary" onclick="location.href='/my-log/'">앱으로 돌아가기</button>
+      <div class="ok" id="ok"></div>
+      <div class="warn">기존 게임 기록이 있으면 자동으로 백업 키를 하나 만들고 새 데이터로 덮어써.</div>
+    </div>
+  </div>
+
+  <script>
+    const importData = [
+  {
+    "title": "라스트 오브 어스 파트1",
+    "platform": "PS",
+    "startDate": "2024-02-14",
+    "endDate": "2024-03-01",
+    "status": "완료",
+    "playTime": 30,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "고스트 오브 쓰시마",
+    "platform": "PS",
+    "startDate": "2024-03-01",
+    "endDate": "2024-03-22",
+    "status": "완료",
+    "playTime": 60,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "언차티드4",
+    "platform": "PS",
+    "startDate": "2024-03-24",
+    "endDate": "2024-03-31",
+    "status": "완료",
+    "playTime": 20,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "스텔라 블레이드",
+    "platform": "PS",
+    "startDate": "2024-05-03",
+    "endDate": "2024-06-07",
+    "status": "완료",
+    "playTime": 50,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "마블 스파이더맨",
+    "platform": "PS",
+    "startDate": "2024-06-08",
+    "endDate": "2024-06-15",
+    "status": "완료",
+    "playTime": 30,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "용과같이 극",
+    "platform": "PS",
+    "startDate": "2024-06-15",
+    "endDate": "2024-06-27",
+    "status": "완료",
+    "playTime": 30,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "마블 스파이더맨 마일즈 모랄레스",
+    "platform": "PS",
+    "startDate": "2024-06-27",
+    "endDate": "2024-07-01",
+    "status": "완료",
+    "playTime": 10,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "용과같이 제로",
+    "platform": "PS",
+    "startDate": "2024-07-04",
+    "endDate": "2024-08-23",
+    "status": "완료",
+    "playTime": 80,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "용과같이 극2",
+    "platform": "PS",
+    "startDate": "2024-08-25",
+    "endDate": "2024-09-08",
+    "status": "완료",
+    "playTime": 30,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "마블 스파이더맨2",
+    "platform": "PS",
+    "startDate": "2024-09-21",
+    "endDate": "2024-09-29",
+    "status": "완료",
+    "playTime": 30,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "용과같이7",
+    "platform": "PS",
+    "startDate": "2024-09-29",
+    "endDate": "2024-10-15",
+    "status": "완료",
+    "playTime": 80,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "레드 데드 리뎀션2",
+    "platform": "PS",
+    "startDate": "2024-10-21",
+    "endDate": "2024-11-18",
+    "status": "완료",
+    "playTime": "",
+    "price": 0,
+    "note": "에필로그 못깸(카탈로그 제외)"
+  },
+  {
+    "title": "용과같이 외전 : 이름을 지운 자",
+    "platform": "PS",
+    "startDate": "2024-11-23",
+    "endDate": "2024-11-27",
+    "status": "완료",
+    "playTime": 20,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "용과같이8",
+    "platform": "PS",
+    "startDate": "2024-11-30",
+    "endDate": "2024-12-29",
+    "status": "완료",
+    "playTime": "",
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "엘든링",
+    "platform": "PS",
+    "startDate": "2024-12-29",
+    "endDate": "2025-02-09",
+    "status": "완료",
+    "playTime": 140,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "메타포 리판타지오",
+    "platform": "PS",
+    "startDate": "2025-02-09",
+    "endDate": "2025-03-09",
+    "status": "완료",
+    "playTime": 130,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "P의 거짓",
+    "platform": "PS",
+    "startDate": "2025-03-09",
+    "endDate": "2025-03-22",
+    "status": "완료",
+    "playTime": 40,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "진삼국무쌍 오리진",
+    "platform": "PS",
+    "startDate": "2025-03-23",
+    "endDate": "2025-04-21",
+    "status": "완료",
+    "playTime": 50,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "호라이즌 제로 던",
+    "platform": "PS",
+    "startDate": "2025-04-22",
+    "endDate": "2025-05-12",
+    "status": "완료",
+    "playTime": 80,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "어쌔신크리드 오리진",
+    "platform": "PS",
+    "startDate": "2025-05-14",
+    "endDate": "2025-06-07",
+    "status": "완료",
+    "playTime": 57,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "어쌔신크리드 오디세이",
+    "platform": "PS",
+    "startDate": "2025-06-08",
+    "endDate": "2025-07-12",
+    "status": "완료",
+    "playTime": 92,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "클레르 옵스퀴르: 33 원정대",
+    "platform": "PS",
+    "startDate": "2025-07-12",
+    "endDate": "2025-07-31",
+    "status": "완료",
+    "playTime": 50,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "호라이즌 포비든 웨스트",
+    "platform": "PS",
+    "startDate": "2025-08-02",
+    "endDate": "2025-08-24",
+    "status": "완료",
+    "playTime": 100,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "천수의 사쿠나히메",
+    "platform": "PS",
+    "startDate": "2025-08-26",
+    "endDate": "2025-09-11",
+    "status": "완료",
+    "playTime": 40,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "호그와트 레거시",
+    "platform": "PS",
+    "startDate": "2025-09-13",
+    "endDate": "2025-09-28",
+    "status": "완료",
+    "playTime": 50,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "라쳇&클랭크 : 리프트 어파트",
+    "platform": "PS",
+    "startDate": "2025-09-29",
+    "endDate": "2025-10-09",
+    "status": "완료",
+    "playTime": 20,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "고스트 오브 요테이",
+    "platform": "PS",
+    "startDate": "2025-10-09",
+    "endDate": "2025-10-19",
+    "status": "완료",
+    "playTime": 57,
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "드래곤퀘스트7 : 리이매진드",
+    "platform": "PS",
+    "startDate": "2026-02-08",
+    "endDate": "2026-03-01",
+    "status": "완료",
+    "playTime": 67,
+    "price": 69800,
+    "note": ""
+  },
+  {
+    "title": "용과같이 극3",
+    "platform": "PS",
+    "startDate": "2026-03-02",
+    "endDate": "2026-03-12",
+    "status": "완료",
+    "playTime": 40,
+    "price": 69800,
+    "note": ""
+  },
+  {
+    "title": "용과같이3 외전 : Dark ties",
+    "platform": "PS",
+    "startDate": "2026-03-15",
+    "endDate": "",
+    "status": "플레이 중",
+    "playTime": "",
+    "price": 0,
+    "note": ""
+  },
+  {
+    "title": "포켓몬스터 ZA",
+    "platform": "Switch",
+    "startDate": "2025-10-19",
+    "endDate": "2025-12-27",
+    "status": "완료",
+    "playTime": 40,
+    "price": 69800,
+    "note": "중간에 게임 안 함"
+  }
+];
+
+    function importGames() {
+      try {
+        const existing = localStorage.getItem('gaming_log_v1');
+        if (existing) {
+          localStorage.setItem('gaming_log_v1_backup_' + Date.now(), existing);
+        }
+        localStorage.setItem('gaming_log_v1', JSON.stringify(importData));
+        const box = document.getElementById('ok');
+        box.style.display = 'block';
+        box.textContent = '가져오기 완료\n총 ' + importData.length + '개 기록이 저장됐어.\n이제 앱으로 돌아가서 확인하면 돼.';
+      } catch (e) {
+        alert('가져오기에 실패했어: ' + e.message);
+      }
+    }
+  </script>
+</body>
+</html>
