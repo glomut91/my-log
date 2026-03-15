@@ -638,7 +638,7 @@
         const tr = document.createElement('tr');
         const days = calcDays(item.startDate, item.finishDate);
         tr.innerHTML = `
-          <td>
+          <td class="book-col-title">
             <div style="cursor:pointer;" title="누르면 수정">${escapeHtml(item.title)}</div>
             ${item.author ? `<div class="small">${escapeHtml(item.author)}</div>` : ''}
             ${item.genre ? `<div class="small"><span class="tag">${escapeHtml(item.genre)}</span></div>` : ''}
