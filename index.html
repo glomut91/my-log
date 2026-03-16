@@ -172,21 +172,58 @@
     .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--primary-strong); margin-top: 4px; }
     .record-table {
       table-layout: fixed;
-      width: 100%;
-    }
-    
-    .book-col-date { 
-      width: 92px; 
-      white-space: nowrap;
-    }
-    .book-col-type { width: 68px; }
-    .book-col-memo { width: 48px; }
-    
-    .book-col-title {
-      width: calc(100% - 208px);
-      white-space: normal;
-      word-break: keep-all;
-    }
+    .record-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.record-table th,
+.record-table td {
+  padding: 8px 6px;
+  vertical-align: top;
+}
+
+.book-col-date {
+  width: 92px;
+  white-space: nowrap;
+}
+
+.book-col-type {
+  width: 68px;
+  white-space: nowrap;
+}
+
+.book-col-memo {
+  width: 48px;
+  white-space: nowrap;
+}
+
+.book-col-title {
+  width: calc(100% - 208px);
+  white-space: normal;
+  word-break: keep-all;
+}
+
+.game-col-play {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.game-col-price {
+  width: 92px;
+  white-space: nowrap;
+}
+
+.game-col-memo {
+  width: 48px;
+  white-space: nowrap;
+}
+
+.game-col-title {
+  width: calc(100% - 250px);
+  white-space: normal;
+  word-break: keep-all;
+}
     .book-date-line { display: block; white-space: nowrap; }
     .book-date-line.sub { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
 
