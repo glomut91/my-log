@@ -1,6 +1,6 @@
 {
-  "name": "My Log",
-  "short_name": "My Log",
+  "name": "BookLog",
+  "short_name": "BookLog",
   "id": "/my-log/",
   "start_url": "/my-log/",
   "scope": "/my-log/",
